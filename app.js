@@ -24,6 +24,7 @@ app.get('/', function (req, res) {
 
 //#region Behave as LINE Platform
 const lineAPIUrl = "https://api.line.me/v2/bot";
+const lineAPIDataUrl = "https://api-data.line.me/v2/bot";
 
 app.delete('/*', function (req, res) {
     handleRequest(req, res);
@@ -60,6 +61,10 @@ function handleRequest(req, res) {
         uri: `${lineAPIUrl}${req.url}`,
         method: req.method
     };
+
+    if (req.url.indexOf('content') !== -1) {
+      requestSettings.uri = `${lineAPIDataUrl}${req.url}`
+    }
 
     if (req.method === "POST") {
         requestSettings.body = req.body;
